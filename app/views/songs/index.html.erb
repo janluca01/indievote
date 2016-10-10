@@ -1,0 +1,51 @@
+<h1>Songs</h1>
+ <%= link_to "New Song", new_song_path %>
+<div class="row">
+<% @songs.each do |song| %>
+<div class="col-md-4">
+    <div class="box panel panel-default">
+
+      <div class="panel-heading" style="text-align:center">
+       <h3> <%= song.title %> </h3>
+      </div>
+       <div class="panel-body" style="">
+      <%= link_to image_tag(song.image.url(:medium)), song %>
+     
+        <h4><%= song.description %></h4>
+        <p style="text-align:center"><h5><%= link_to "Ansehen", "https://#{song.link}" %></h5></p>
+
+
+        <%= link_to like_song_path(song), class: "like", method: :put do %>
+        	<button type="button" class="btn btn-info" aria-label="Left Align">
+        	<span class "glyphicon glyphicon-thumbs-up glyphicon-align-center" aria-hidden="true"></span>
+        	<span class="badge"><%= song.get_upvotes.size %></span>
+        	</button>
+        <% end %>
+
+        <%= link_to dislike_song_path(song), class: "like", method: :put do %>
+        	<button type="button" class="btn btn-info" aria-label="Left Align">
+        	<span class "glyphicon glyphicon-plus" aria-hidden="true"></span>
+        	<span class="badge"><%= song.get_downvotes.size %></span>
+        	</button>
+        <% end %>
+
+        
+        <% if song.user = current_user %>
+          <div class="actions">
+            <%= link_to edit_song_path(song) do %>
+              <span class="glyphicon glyphicon-pencil"></span>
+              Edit
+            <% end %>
+            <%= link_to song, method: :delete, data: { confirm: 'Are you sure?' } do %>
+              <span class="glyphicon glyphicon-trash"></span>
+              Delete
+            <% end %>
+          </div>
+        <% end %>
+        
+      </div>
+    </div>
+</div>
+
+  <% end %>
+</div>
